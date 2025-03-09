@@ -41,6 +41,50 @@ const KanbanBoard = () => {
 	};
 	const [activeCard, setActiveCard] = useState(null);
 
+	const handleDeleteCard = (index, parent) => {
+		if (parent === "Urgent") {
+			seturgentItems([
+				...urgentItems.slice(0, index),
+				...urgentItems.slice(index + 1),
+			]);
+		} else if (parent === "Done") {
+			setDoneItems([
+				...doneItems.slice(0, index),
+				...doneItems.slice(index + 1),
+			]);
+		} else if (parent === "Not started") {
+			setnotStartedItems([
+				...notStartedItems.slice(0, index),
+				...notStartedItems.slice(index + 1),
+			]);
+		} else {
+			setInProgressItems([
+				...inProgressItems.slice(0, index),
+				...inProgressItems.slice(index + 1),
+			]);
+		}
+	};
+
+	const handleEditCard = (index, parent, newTitle) => {
+		if (parent === "Urgent") {
+			const updated = [...urgentItems];
+			updated[index].title = newTitle;
+			seturgentItems(updated);
+		} else if (parent === "Done") {
+			const updated = [...doneItems];
+			updated[index].title = newTitle;
+			setDoneItems(updated);
+		} else if (parent === "Not started") {
+			const updated = [...notStartedItems];
+			updated[index].title = newTitle;
+			setnotStartedItems(updated);
+		} else {
+			const updated = [...inProgressItems];
+			updated[index].title = newTitle;
+			setInProgressItems(updated);
+		}
+	};
+
 	return (
 		<DndContext
 			collisionDetection={rectIntersection}
@@ -49,9 +93,12 @@ const KanbanBoard = () => {
 			}}
 			onDragEnd={(e) => {
 				const container = e.over?.id;
-				const title = e.active.data.current?.title || "";
-				const index = e.active.data.current?.index || 0;
-				const parent = e.active.data.current?.parent || "Urgent";
+				const { title, index, parent } = e.active.data.current;
+
+				if (!container || container === parent) {
+					setActiveCard(null);
+					return;
+				}
 
 				if (container === "Urgent") {
 					seturgentItems([...urgentItems, { title }]);
@@ -62,6 +109,7 @@ const KanbanBoard = () => {
 				} else {
 					setInProgressItems([...inProgressItems, { title }]);
 				}
+
 				if (parent === "Urgent") {
 					seturgentItems([
 						...urgentItems.slice(0, index),
@@ -96,6 +144,8 @@ const KanbanBoard = () => {
 							items={items}
 							titleColor={titleColor}
 							bodyColor={bodyColor}
+							onDeleteCard={handleDeleteCard}
+							onEditCard={handleEditCard}
 						/>
 					))}
 				</div>

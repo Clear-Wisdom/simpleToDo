@@ -1,7 +1,14 @@
 import { useDroppable } from "@dnd-kit/core";
 import KanbanCard from "./KanbanCard";
 
-const KanbanLane = ({ title, items, titleColor, bodyColor }) => {
+const KanbanLane = ({
+	title,
+	items,
+	titleColor,
+	bodyColor,
+	onDeleteCard,
+	onEditCard,
+}) => {
 	const { setNodeRef } = useDroppable({
 		id: title,
 	});
@@ -20,7 +27,14 @@ const KanbanLane = ({ title, items, titleColor, bodyColor }) => {
 				style={{ backgroundColor: bodyColor }}
 			>
 				{items.map(({ title: item }, index) => (
-					<KanbanCard key={index} title={item} index={index} parent={title} />
+					<KanbanCard
+						key={index}
+						title={item}
+						index={index}
+						parent={title}
+						onDelete={onDeleteCard}
+						onEdit={onEditCard}
+					/>
 				))}
 			</div>
 		</div>
