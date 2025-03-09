@@ -1,39 +1,28 @@
-import { Flex, Text, Button, Input, Spacer } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const AddCard = ({ addCard }) => {
 	const [title, setTitle] = useState("");
 
 	return (
-		<Flex flex="3" padding="5">
-			<Flex
-				flex="1"
-				bg="white"
-				borderRadius="md"
-				boxShadow="md"
-				flexDirection="row"
-				p={2}
-			>
-				<Input
-					mt={2}
+		<div className="flex flex-3 p-5">
+			<div className="flex-1 bg-white rounded-md shadow-md flex flex-row p-2">
+				<input
+					className="mt-2 flex-grow border border-gray-300 rounded-md px-2 py-1"
 					placeholder="Card Title"
 					value={title}
 					onChange={(e) => setTitle(e.target.value)}
 				/>
-
-				<Button
-					ml={1}
-					mt={2}
-					colorScheme="blue"
+				<button
+					className="ml-1 mt-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
 					onClick={() => {
 						addCard(title);
 						setTitle("");
 					}}
 				>
 					Add Card
-				</Button>
-			</Flex>
-		</Flex>
+				</button>
+			</div>
+		</div>
 	);
 };
 

@@ -1,46 +1,39 @@
-import React from 'react'
-import { Flex, Text } from "@chakra-ui/react";
+import React from "react";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 
-const KanbanCard = ({ title,index,parent }) => {
+const KanbanCard = ({ title, index, parent }) => {
+	const { attributes, listeners, setNodeRef, transform } = useDraggable({
+		id: `card-${title}`,
+		data: {
+			title,
+			index,
+			parent,
+		},
+	});
 
-    const { attributes, listeners, setNodeRef, transform, transition } = useDraggable({
-        id: `card-${title}`,
-        data: {
-            title,
-            index,
-            parent
-        }
-    });
+	const isDragging = Boolean(transform);
 
-    const style = {
-        transform: CSS.Transform.toString(transform),
-        transition,
-    };
+	const style = {
+		transform: CSS.Transform.toString(transform),
+		transition: "none",
+		...(isDragging && { visibility: "hidden" }),
+	};
 
-
-    return (
-        <Flex
-            ref={setNodeRef}
-            style={style}
-            {...attributes}
-            {...listeners}
-            bg="white"
-            p={2}
-            mt={1}
-            borderRadius="md"
-            boxShadow="md"
-            w="100%"
-            h="100%"
-            alignItems="center"
-            justifyContent="center"
-            cursor="grab"
-        >
-            <Text>{title}</Text>
-        </Flex>
-
-    )
-}
+	return (
+		<div
+			ref={setNodeRef}
+			style={style}
+			{...attributes}
+			{...listeners}
+			className="bg-white 
+            p-2 mt-2 rounded-md shadow-md 
+            w-full cursor-grab 
+            whitespace-normal break-words"
+		>
+			{title}
+		</div>
+	);
+};
 
 export default KanbanCard;
