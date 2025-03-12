@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 
-const KanbanCard = ({ title, index, parent, onDelete, onEdit }) => {
+const KanbanCard = ({ title, index, parent, todoId, onDelete, onEdit }) => {
 	const { attributes, listeners, setNodeRef, transform } = useDraggable({
-		id: `card-${title}`,
+		id: `card-${todoId || title}`,
 		data: {
 			title,
 			index,
 			parent,
+			todoId,
 		},
 	});
 

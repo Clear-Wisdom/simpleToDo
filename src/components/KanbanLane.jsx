@@ -26,12 +26,13 @@ const KanbanLane = ({
 				className="rounded-md shadow-md flex flex-col p-2 min-h-[5rem]"
 				style={{ backgroundColor: bodyColor }}
 			>
-				{items.map(({ title: item }, index) => (
+				{items.map(({ title: item, todoId }, index) => (
 					<KanbanCard
-						key={index}
+						key={todoId || index}
 						title={item}
 						index={index}
 						parent={title}
+						todoId={todoId}
 						onDelete={onDeleteCard}
 						onEdit={onEditCard}
 					/>
